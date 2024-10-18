@@ -2,7 +2,7 @@
 
 This project demonstrates the enhanced RxJS Interop capabilities in Angular 18, showcasing how Signals and RxJS Observables can be seamlessly integrated to optimize reactive state management and improve code performance and readability.
 
-Live Demo is available at: [https://angular-rxjs-interpop-examples.web.app/](https://angular-rxjs-interpop-examples.web.app/)
+[Live Demo](https://angular-rxjs-interpop-examples.web.app/) is available.
 
 The demo illustrates the key concepts described in the article: [RxJS Interop in Angular 18: Key Changes and Benefits](https://medium.com/@alex.g.petrakov/rxjs-interop-in-angular-18-key-changes-and-benefits-3e113402e525).
 
