@@ -1,0 +1,8 @@
+<div>
+  <p>Old Approach Value: {{ oldApproachValue }}</p>
+  <p>New Approach Value: {{ newApproachValue }}</p>
+  <br>
+  <app-third-example-child
+    (incrementOldApproach)="incrementDefault()"
+  ></app-third-example-child>
+</div>

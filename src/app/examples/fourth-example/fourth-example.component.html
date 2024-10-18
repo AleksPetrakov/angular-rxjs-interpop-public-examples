@@ -1,0 +1,10 @@
+<div>
+  <h2>Items From Signal</h2>
+  <ul>
+    <li *ngFor="let item of dataSignal()">{{ item.name }}</li>
+  </ul>
+  <h2>Items From Observable</h2>
+  <ul>
+    <li *ngFor="let item of (data$ | async)">{{ item.name }}</li>
+  </ul>
+</div>

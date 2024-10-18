@@ -1,0 +1,6 @@
+<div>
+  <button (click)="incrementSignal()">Increment Signal</button>
+  <p>Observable Value: {{ myObservable$ | async }}</p>
+  <p>Signal Value: {{ mySignal() }}</p>
+  <p>Transformed Signal Value {{ squaredSignal() }}</p>
+</div>
