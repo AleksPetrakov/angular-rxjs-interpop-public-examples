@@ -1,29 +1,30 @@
-import { AfterViewInit, Component, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, Signal, signal, viewChild, WritableSignal } from '@angular/core';
 import { SecondExampleChildComponent } from './second-example-child/second-example-child.component';
-import { outputToObservable } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-@UntilDestroy()
 @Component({
   selector: 'app-second-example',
   templateUrl: './second-example.component.html',
 })
 export class SecondExampleComponent implements AfterViewInit {
-  @ViewChild(SecondExampleChildComponent) private childComponent: SecondExampleChildComponent | undefined;
-  myChildOutputtedSignal = signal(0);
-  myChildOutputtedObservable$: Observable<number> | undefined;
+  destroyRef = inject(DestroyRef);
+  childComponent: Signal<SecondExampleChildComponent | undefined>
+    = viewChild<SecondExampleChildComponent>(SecondExampleChildComponent);
+  myChildOutputtedSignal: WritableSignal<number> = signal(0);
+  myChildOutputtedObservable$: Observable<number> = toObservable(this.myChildOutputtedSignal);
 
   ngAfterViewInit() {
     // No need to unsubscribe from this subscription on Destroy
-    this.childComponent!.myObservableChange.subscribe((value: number) => {
+    this.childComponent()!.myObservableChange.subscribe((value: number) => {
       // Save the value as you wish: BehaviourSubject, Signal, etc.
       this.myChildOutputtedSignal.set(value);
     });
 
-    // Better to unsubscribe from this subscription on Destroy Because the Observable is created in the constructor
-    this.myChildOutputtedObservable$ = outputToObservable(this.childComponent!.myObservableChange).pipe(
-      untilDestroyed(this),
+    // Better to unsubscribe from this subscription on Destroy Because the Observable
+    // is not guaranteed to complete when the component is destroyed
+    this.myChildOutputtedObservable$.pipe(
+      takeUntilDestroyed(this.destroyRef),
     );
   }
 }

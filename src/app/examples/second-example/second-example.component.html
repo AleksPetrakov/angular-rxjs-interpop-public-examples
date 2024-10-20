@@ -1,4 +1,5 @@
 <div>
-  <p>Check Child Observable Value In Parent: {{ myChildOutputtedSignal() }}</p>
+  <p>Child Observable Value In Parent as a Signal: {{ myChildOutputtedSignal() }}</p>
+  <p>Child Observable Value In Parent as an Observable {{ myChildOutputtedObservable$ | async }}</p>
   <app-second-example-child></app-second-example-child>
 </div>

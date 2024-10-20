@@ -1,10 +1,18 @@
 <div>
   <h2>Items From Signal</h2>
   <ul>
-    <li *ngFor="let item of dataSignal()">{{ item.name }}</li>
+    @for (item of dataSignal(); track item.id) {
+      <li>{{ item.name }}</li>
+    } @empty {
+      <li>Loading...</li>
+    }
   </ul>
   <h2>Items From Observable</h2>
   <ul>
-    <li *ngFor="let item of (data$ | async)">{{ item.name }}</li>
+    @for (item of (data$ | async); track item.id) {
+      <li>{{ item.name }}</li>
+    } @empty {
+      <li>Loading...</li>
+    }
   </ul>
 </div>

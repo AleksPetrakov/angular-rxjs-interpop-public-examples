@@ -1,4 +1,4 @@
-import { Component, computed, signal, WritableSignal } from '@angular/core';
+import { Component, computed, Signal, signal, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { toObservable } from '@angular/core/rxjs-interop';
 
@@ -8,7 +8,8 @@ import { toObservable } from '@angular/core/rxjs-interop';
 })
 export class FirstExampleComponent {
   mySignal: WritableSignal<number> = signal(0);
-  squaredSignal = computed(() => this.myDataTransformFn(this.mySignal()));
+  squaredSignal: Signal<number>
+    = computed(() => this.myDataTransformFn(this.mySignal()));
   myObservable$: Observable<number>;
 
   constructor() {

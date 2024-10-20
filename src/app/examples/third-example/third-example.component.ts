@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Signal, viewChild } from '@angular/core';
 import { ThirdExampleChildComponent } from './third-example-child/third-example-child.component';
 
 @Component({
@@ -6,13 +6,14 @@ import { ThirdExampleChildComponent } from './third-example-child/third-example-
   templateUrl: './third-example.component.html',
 })
 export class ThirdExampleComponent implements AfterViewInit {
-  @ViewChild(ThirdExampleChildComponent) childComponent: ThirdExampleChildComponent | undefined;
+  childComponent: Signal<ThirdExampleChildComponent | undefined>
+    = viewChild<ThirdExampleChildComponent>(ThirdExampleChildComponent);
   oldApproachValue = 0;
   newApproachValue = 0;
 
   ngAfterViewInit() {
     // No need to unsubscribe from this subscription on Destroy
-    this.childComponent?.incrementNewApproach.subscribe(() => {
+    this.childComponent()!.incrementNewApproach.subscribe(() => {
       this.newApproachValue++;
     });
   }

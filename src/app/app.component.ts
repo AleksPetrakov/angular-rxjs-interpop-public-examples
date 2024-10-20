@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs';
 import { ROUTES } from './app-routing.module';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-@UntilDestroy()
 @Component({
   selector: 'app-root',
   template: `
@@ -81,8 +80,9 @@ import { ROUTES } from './app-routing.module';
   `,
 })
 export class AppComponent implements OnInit {
-  routes = ROUTES;
-  title = 'angular-rxjs-interop';
+  private destroyRef = inject(DestroyRef);
+  readonly routes = ROUTES;
+  readonly title = 'angular-rxjs-interop' as const;
   subtitle: string | undefined;
 
   constructor(private readonly router: Router) { }
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
-      untilDestroyed(this)
+      takeUntilDestroyed(this.destroyRef),
     ).subscribe(() => {
       const currentRoute = this.router.routerState.root.snapshot.firstChild;
 
